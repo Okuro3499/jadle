@@ -20,6 +20,4 @@ public interface FoodtypeDao {
     //delete
     void deleteById(int id);
     void clearAll();
-
-
 }

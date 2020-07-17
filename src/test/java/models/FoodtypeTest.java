@@ -1,10 +1,14 @@
 package models;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-public class FoodtypeTest {
+public class FoodtypeTest  {
 
+    public Foodtype setupFoodtype() {return new Foodtype("Githeri");}
     @Before
     public void setUp() throws Exception {
     }
@@ -12,29 +16,15 @@ public class FoodtypeTest {
     @After
     public void tearDown() throws Exception {
     }
-
     @Test
-    public void getName() {
+    public void getNameReturnCorrectName(){
         Foodtype testFoodtype = setupFoodtype();
-        assertEquals("dessert", testFoodtype.getName());
+        assertEquals("Githeri",testFoodtype.getName());
     }
-
     @Test
-    public void setName() {
+    public void setNameReturnCorectName(){
         Foodtype testFoodtype = setupFoodtype();
-        testFoodtype.setName("breakfast");
-        assertNotEquals("dessert", testFoodtype.getName());
-    }
-
-    @Test
-    public void setId() {
-        Foodtype testFoodtype = setupFoodtype();
-        testFoodtype.setId(5);
-        assertEquals(5, testFoodtype.getId());
-    }
-
-    // helper
-    public Foodtype setupFoodtype(){
-        return new Foodtype("dessert");
+        testFoodtype.setName("rice");
+        assertNotEquals("Githeri", testFoodtype.getName());
     }
 }

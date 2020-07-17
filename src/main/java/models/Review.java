@@ -7,7 +7,7 @@ public class Review {
     private String writtenBy;
     private int rating;
     private int id;
-    private int restaurantId;
+    private int restaurantId; //will be used to connect Restaurant to Review (one-to-many)
 
     public Review(String content, String writtenBy, int rating, int restaurantId) {
         this.content = content;
@@ -28,12 +28,12 @@ public class Review {
         return rating;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public int getRestaurantId() {
         return restaurantId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setContent(String content) {
@@ -59,17 +59,17 @@ public class Review {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Review)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
         return rating == review.rating &&
-                id == review.id &&
                 restaurantId == review.restaurantId &&
-                Objects.equals(content, review.content) &&
-                Objects.equals(writtenBy, review.writtenBy);
+                content.equals(review.content) &&
+                writtenBy.equals(review.writtenBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(content, writtenBy, rating, id, restaurantId);
+        return Objects.hash(content, writtenBy, rating, restaurantId);
     }
 }
+

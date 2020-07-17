@@ -18,7 +18,7 @@ public class Sql2oReviewDaoTest {
     @Before
     public void setUp() throws Exception {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
-        Sql2o sql2o = new Sql2o(connectionString, "gideon", "33450715Go.");
+        Sql2o sql2o = new Sql2o(connectionString, "", "");
         reviewDao = new Sql2oReviewDao(sql2o);
         restaurantDao = new Sql2oRestaurantDao(sql2o);
         conn = sql2o.open();
@@ -45,11 +45,11 @@ public class Sql2oReviewDaoTest {
     @Test
     public void getAllReviewsByRestaurant() throws Exception {
         Restaurant testRestaurant = setupRestaurant();
-        Restaurant otherRestaurant = setupRestaurant();
+        Restaurant otherRestaurant = setupRestaurant(); //add in some extra data to see if it interferes
         Review review1 = setupReviewForRestaurant(testRestaurant);
         Review review2 = setupReviewForRestaurant(testRestaurant);
         Review reviewForOtherRestaurant = setupReviewForRestaurant(otherRestaurant);
-        assertEquals(3, reviewDao.getAllReviewsByRestaurant(testRestaurant.getId()).size());
+        assertEquals(2, reviewDao.getAllReviewsByRestaurant(testRestaurant.getId()).size());
     }
 
     @Test
@@ -72,20 +72,21 @@ public class Sql2oReviewDaoTest {
     //helpers
 
     public Review setupReview() {
-        Review review = new Review("great", "Kim", 4, 555);
+        Review review = new Review("Tasty", "frank", 4, 555);
         reviewDao.add(review);
         return review;
     }
 
     public Review setupReviewForRestaurant(Restaurant restaurant) {
-        Review review = new Review("great", "Kim", 4, restaurant.getId());
+        Review review = new Review("Tasty", "Frank", 4, restaurant.getId());
         reviewDao.add(review);
         return review;
     }
-
     public Restaurant setupRestaurant() {
-        Restaurant restaurant = new Restaurant("Fish Witch", "214 NE Broadway", "97232", "503-402-9874", "http://fishwitch.com", "hellofishy@fishwitch.com");
+        Restaurant restaurant = new Restaurant("Mama Njuguna", "Kitale", "30200", "0720140486", "http://mamanjuguna.com", "mamanjuguna.com");
         restaurantDao.add(restaurant);
         return restaurant;
     }
 }
+
+

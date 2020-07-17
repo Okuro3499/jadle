@@ -2,15 +2,19 @@ package dao;
 
 import models.Foodtype;
 import models.Restaurant;
-import dao.Sql2oReviewDao;
-import dao.Sql2oRestaurantDao;
-import dao.Sql2oFoodtypeDao;
-import org.junit.*;
-import org.sql2o.*;
-import java.util.Arrays;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
 
-public class Sql2oRestaurantDaoTest {
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+
+public class Sql2oRestaurantDaoTest{
     private Connection conn;
     private Sql2oRestaurantDao restaurantDao;
     private Sql2oFoodtypeDao foodtypeDao;
@@ -19,7 +23,7 @@ public class Sql2oRestaurantDaoTest {
     @Before
     public void setUp() throws Exception {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
-        Sql2o sql2o = new Sql2o(connectionString, "gideon", "33450715Go.");
+        Sql2o sql2o = new Sql2o(connectionString, "", "");
         restaurantDao = new Sql2oRestaurantDao(sql2o);
         foodtypeDao = new Sql2oFoodtypeDao(sql2o);
         reviewDao = new Sql2oReviewDao(sql2o);
@@ -32,13 +36,13 @@ public class Sql2oRestaurantDaoTest {
     }
 
     @Test
-    public void addingFoodSetsId() throws Exception{
+    public void addingFoodSetsId() throws Exception {
         Restaurant testRestaurant = setupRestaurant();
         assertNotEquals(0, testRestaurant.getId());
     }
 
     @Test
-    public void addedRestaurantAreReturnedFromGetAll() throws Exception {
+    public void addedRestaurantsAreReturnedFromGetAll() throws Exception {
         Restaurant testRestaurant = setupRestaurant();
         assertEquals(1, restaurantDao.getAll().size());
     }
@@ -62,7 +66,7 @@ public class Sql2oRestaurantDaoTest {
         Restaurant foundRestaurant = restaurantDao.findById(testRestaurant.getId());
         assertEquals("a", foundRestaurant.getName());
         assertEquals("b", foundRestaurant.getAddress());
-        assertEquals("c", foundRestaurant.getZipCode());
+        assertEquals("c", foundRestaurant.getZipcode());
         assertEquals("d", foundRestaurant.getPhone());
         assertEquals("e", foundRestaurant.getWebsite());
         assertEquals("f", foundRestaurant.getEmail());
@@ -73,7 +77,7 @@ public class Sql2oRestaurantDaoTest {
         Restaurant testRestaurant = setupRestaurant();
         Restaurant otherRestaurant = setupRestaurant();
         restaurantDao.deleteById(testRestaurant.getId());
-        assertEquals(0, restaurantDao.getAll().size());
+        assertEquals(1, restaurantDao.getAll().size());
     }
 
     @Test
@@ -85,32 +89,33 @@ public class Sql2oRestaurantDaoTest {
     }
 
     @Test
-    public void RestaurantReturnsFoodTypesCorrectly() throws Exception {
-        Foodtype testFoodtype = new Foodtype("Seafood");
+    public void RestaurantReturnsFoodtypesCorrectly() throws Exception {
+        Foodtype testFoodtype  = new Foodtype("Seafood");
         foodtypeDao.add(testFoodtype);
 
-        Foodtype otherFoodtype = new Foodtype("Bar food");
+        Foodtype otherFoodtype  = new Foodtype("Bar Food");
         foodtypeDao.add(otherFoodtype);
 
         Restaurant testRestaurant = setupRestaurant();
         restaurantDao.add(testRestaurant);
-        restaurantDao.addRestaurantToFoodtype(testRestaurant, testFoodtype);
-        restaurantDao.addRestaurantToFoodtype(testRestaurant, otherFoodtype);
+        restaurantDao.addRestaurantToFoodtype(testRestaurant,testFoodtype);
+        restaurantDao.addRestaurantToFoodtype(testRestaurant,otherFoodtype);
 
-        Foodtype[] foodtypes = {testFoodtype, otherFoodtype};
-        assertEquals(Arrays.asList(foodtypes), restaurantDao.getAllFoodtypesByARestaurant(testRestaurant.getId()));
+        Foodtype[] foodtypes = {testFoodtype, otherFoodtype}; //oh hi what is this?
+
+        assertEquals(Arrays.asList(foodtypes), restaurantDao.getAllFoodtypesByRestaurant(testRestaurant.getId()));
     }
 
-    //helpers
     public Restaurant setupRestaurant (){
         Restaurant restaurant = new Restaurant("Fish Omena", "214 NE Ngara", "97232", "254-402-9874", "http://fishwitch.com", "hellofishy@fishwitch.com");
         restaurantDao.add(restaurant);
         return restaurant;
     }
 
-    public Restaurant setupAltRestaurant(){
+    public Restaurant setupAltRestaurant (){
         Restaurant restaurant = new Restaurant("Fish Omena", "214 NE Ngara", "97232", "254-402-9874");
         restaurantDao.add(restaurant);
         return restaurant;
     }
+
 }

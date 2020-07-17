@@ -3,7 +3,6 @@ package models;
 import java.util.Objects;
 
 public class Restaurant {
-
     private String name;
     private String address;
     private String zipcode;
@@ -20,6 +19,7 @@ public class Restaurant {
         this.website = "no website listed";
         this.email = "no email available";
     }
+    //Constructor override
 
     public Restaurant(String name, String address, String zipcode, String phone, String website, String email) {
         this.name = name;
@@ -34,11 +34,19 @@ public class Restaurant {
         return name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public String getAddress() {
         return address;
     }
 
-    public String getZipCode() {
+    public String getZipcode() {
         return zipcode;
     }
 
@@ -49,7 +57,6 @@ public class Restaurant {
     public String getWebsite() {
         return website;
     }
-
 
     public String getEmail() {
         return email;
@@ -79,30 +86,21 @@ public class Restaurant {
         this.email = email;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (! (o instanceof Restaurant )) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Restaurant that = (Restaurant) o;
-        return id == that.id &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(zipcode, that.zipcode) &&
-                Objects.equals(phone, that.phone) &&
-                Objects.equals(website, that.website) &&
-                Objects.equals(email, that.email);
+        return name.equals(that.name) &&
+                address.equals(that.address) &&
+                zipcode.equals(that.zipcode) &&
+                phone.equals(that.phone) &&
+                website.equals(that.website) &&
+                email.equals(that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, zipcode, phone, website, email, id);
-    }
-
-    public int getId() {
-        return id;
+        return Objects.hash(name, address, zipcode, phone, website, email);
     }
 }

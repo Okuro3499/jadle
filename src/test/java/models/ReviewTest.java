@@ -1,10 +1,14 @@
 package models;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ReviewTest {
-
+    public Review setupReview(){ return new Review("Tasty","Frank", 4,1);}
     @Before
     public void setUp() throws Exception {
     }
@@ -16,27 +20,27 @@ public class ReviewTest {
     @Test
     public void getContent() {
         Review testReview = setupReview();
-        assertEquals("Great service", testReview.getContent());
+        assertEquals("Tasty", testReview.getContent());
     }
 
     @Test
     public void setContent() {
         Review testReview = setupReview();
         testReview.setContent("No free dessert :(");
-        assertNotEquals("Great service", testReview.getContent());
+        assertNotEquals("Tasty", testReview.getContent());
     }
 
     @Test
     public void getWrittenBy() {
         Review testReview = setupReview();
-        assertEquals("Kim", testReview.getWrittenBy());
+        assertEquals("Frank", testReview.getWrittenBy());
     }
 
     @Test
     public void setWrittenBy() {
         Review testReview = setupReview();
         testReview.setWrittenBy("Mike");
-        assertNotEquals("Kim", testReview.getWrittenBy());
+        assertNotEquals("Frank", testReview.getWrittenBy());
     }
 
     @Test
@@ -72,8 +76,4 @@ public class ReviewTest {
         assertEquals(5, testReview.getId());
     }
 
-    // helper
-    public Review setupReview (){
-        return new Review("Great service", "Kim", 4, 1);
-    }
 }

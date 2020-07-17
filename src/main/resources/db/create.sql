@@ -17,14 +17,13 @@ CREATE TABLE IF NOT EXISTS foodtypes (
 
 CREATE TABLE IF NOT EXISTS reviews (
  id int PRIMARY KEY auto_increment,
- writtenBy VARCHAR,
+ writtenby VARCHAR,
  content VARCHAR,
  rating VARCHAR,
- restaurantId INTEGER
+ restaurantid INTEGER
 );
-
 CREATE TABLE IF NOT EXISTS restaurants_foodtypes (
-id int PRIMARY KEY auto_increment,
-foodtypeId INTEGER,
-restaurantId INTEGER
-);
+ id int PRIMARY KEY auto_increment,
+ foodtypeid INTEGER,
+ restaurantid INTEGER
+ );

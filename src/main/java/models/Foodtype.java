@@ -18,25 +18,24 @@ public class Foodtype {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Foodtype)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Foodtype foodtype = (Foodtype) o;
-        return id == foodtype.id &&
-                Objects.equals(name, foodtype.name);
+        return name.equals(foodtype.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, id);
+        return Objects.hash(name);
     }
 }
